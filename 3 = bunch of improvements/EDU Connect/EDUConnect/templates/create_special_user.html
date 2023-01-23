@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.role == 'admin' %}
+        <h1>Create an Account for New User</h1>
+        <form method="POST" action="{{ url_for('admin.create_special_user') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="password_confirm">Confirm Password</label>
+                <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select name="role" id="role" class="form-control">
+                    <option value="user">User</option>
+                    <option value="lecturer">Lecturer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    {%else%}
+    ...
+    {%endif%}
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
+{% endblock %}

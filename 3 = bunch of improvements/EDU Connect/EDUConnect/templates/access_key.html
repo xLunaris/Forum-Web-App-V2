@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h1 class="mt-5">This post is private</h1>
+                    <form method="POST" action="{{ url_for('posts.post', post_id=post.id) }}" class="mt-4">
+                        <div class="form-group">
+                            <label for="access_key">Access Key</label>
+                            <input type="password" name="access_key" class="form-control">
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
