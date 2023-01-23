@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.title.label(class="form-control-label") }}
+                {% if form.title.errors %}
+                    {{ form.title(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label") }}
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.content(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            {% if current_user.role == "lecturer" %}
+                <div class="form-group">
+                    <label for="{{ form.anonymous_comments.name }}">{{ form.anonymous_comments.label.text }}</label>
+                    {{ form.anonymous_comments() }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.is_private.name }}">{{ form.is_private.label.text }}</label>
+                    {{ form.is_private() }}
+                </div>
+                
+                <div id="access_key_div" style="display:none">
+                    <div class="form-group">
+                        <label for="access_key">Access Key:</label>
+                        <input type="text" class="form-control" name="access_key" id="access_key" placeholder="Enter access key">
+                    </div>
+                </div>
+                
+                <script type="text/javascript">
+                    document.getElementById("{{ form.is_private.name }}").onchange = function() {
+                        document.getElementById("access_key_div").style.display = this.checked ? "block" : "none";
+                    };
+                </script>
+            {% else %} 
+            ...
+            {% endif %}      
+    </form>
+</div>
+
+{% endblock content %}
