@@ -1,0 +1,115 @@
+{% extends "layout2.html" %}
+{% block content %}
+  <div class="col-md-20">
+        <div class="content-section">
+            {% if comments %}
+                <h2>Classification Result for Post: 
+                    <br> "{{ post_title }}" </h2>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total number of comments</h5>
+                                <p class="card-text">{{ total_comments }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Positive</h5>
+                                <p class="card-text">{{ total_positive }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Negative</h5>
+                                <p class="card-text">{{ total_negative }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Neutral</h5>
+                                <p class="card-text">{{ total_neutral }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Very Negative</h5>
+                                <p class="card-text">{{ total_very_negative }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Very Positive</h5>
+                                <p class="card-text">{{ total_very_positive }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br> 
+                <div class="wordcloud-section" style="text-align: center;">
+                    <h3>Most frequent words</h3>
+                    <img src="data:image/png;base64,{{ wordcloud }}" alt="Word Cloud" style="width: 70%;">
+                </div>
+                <br>                            
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                        <th>Comment ID</th>
+                        <th>Author ID</th>
+                        <th>Comment Text</th>
+                        <th>Sentiment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment.id }}</td>
+                            <td>{{ comment.author }}</td>
+                            <td>{{ comment.text }}</td>
+                            <td>{{ comment.sentiment }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% for page_num in comments.iter_pages(left_edge=1, right_edge=1,
+                    left_current=1, right_current=1) %} 
+                    {% if page_num %} 
+                        {% if comments.page == page_num %}
+                            <a
+                            class="btn btn-info mb-4"
+                            href="{{ url_for('collector.comments', post_id=post_id, page=page_num) }}"
+                            >{{ page_num }}</a
+                            >
+                        {% else %}
+                            <a
+                            class="btn btn-outline-info mb-4"
+                            href="{{ url_for('collector.comments', post_id=post_id, page=page_num) }}"
+                            >{{ page_num }}</a
+                            >
+                        {% endif %} 
+                    {% else %} 
+                        ... 
+                    {% endif %} 
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
