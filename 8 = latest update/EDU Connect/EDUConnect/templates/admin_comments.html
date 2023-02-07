@@ -1,0 +1,52 @@
+{% extends "layout2.html" %}
+{% block content %}
+  <div class="col-md-20">
+        <div class="content-section">
+            {% if comments %}
+                <h2>List of Comments in the system</h2>
+                <br>
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                        <th>Comment ID</th>
+                        <th>Author ID</th>
+                        <th>Comment Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment.id }}</td>
+                            <td>{{ comment.author }}</td>
+                            <td>{{ comment.text }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% for page_num in comments.iter_pages(left_edge=1, right_edge=1,
+                    left_current=1, right_current=1) %} 
+                    {% if page_num %} 
+                        {% if comments.page == page_num %}
+                            <a
+                            class="btn btn-info mb-4"
+                            href="{{ url_for('admin.comments', post_id=post_id, page=page_num) }}"
+                            >{{ page_num }}</a
+                            >
+                        {% else %}
+                            <a
+                            class="btn btn-outline-info mb-4"
+                            href="{{ url_for('admin.comments', post_id=post_id, page=page_num) }}"
+                            >{{ page_num }}</a
+                            >
+                        {% endif %} 
+                    {% else %} 
+                        ... 
+                    {% endif %} 
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
